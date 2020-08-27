@@ -1,0 +1,23 @@
+variables:
+- group: 'github-pat-chris-b-chalmers'
+- name: 'github-organisation'
+  value: 'cbchalmers'
+- name: 'github-repository'
+  value: 'Windows-TLS-1.0-1.1-Deprecated-Disable'
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: 'GitPush'
+  jobs:
+    - job: GitPush
+      steps:
+        - checkout: self
+        - script: git push https://$(github-pat-chris-b-chalmers)@github.com/$(github-organisation)/$(github-repository).git HEAD:refs/heads/master
+          displayName: 'Git push to remote repository'
+          env:
+            github-pat-chris-b-chalmers: $(github-pat-chris-b-chalmers)
